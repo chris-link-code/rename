@@ -44,7 +44,7 @@ public class Start {
 
                 String filename = f.getName().replaceAll("vdat","mp4");
                 //对文件重命名
-                File newFile = new File(f.getParent() + File.separator + filename.toString());
+                File newFile = new File(f.getParent() + File.separator + filename);
                 f.renameTo(newFile);
                 //输出文件改名前后变化
                 //System.out.println(f.getName() + "==>" + newFile.getName());
