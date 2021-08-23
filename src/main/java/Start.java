@@ -6,7 +6,7 @@ import java.io.File;
  */
 public class Start {
     public static void main(String[] args) {
-        File file = new File("C:/File/temporary");
+        File file = new File("C:\\Users\\chris\\Downloads\\音频\\鬼怪");
         File[] files = file.listFiles();
         for (File f : files) {
             if (f.isFile()) {
@@ -42,7 +42,8 @@ public class Start {
                     System.out.println(f.getName() + "==>" + newFile.getName());
                 }*/
 
-                String filename = f.getName().replaceAll("vdat","mp4");
+                String filename = f.getName().replaceAll("(\\S{1,})m4a","");
+
                 //对文件重命名
                 File newFile = new File(f.getParent() + File.separator + filename);
                 f.renameTo(newFile);
