@@ -1,19 +1,24 @@
-package com;
+package util;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author chris
- * @create 2021/11/28
+ * @create 2022/1/22
  */
 public class Utils {
+    private final static Logger logger = LogManager.getLogger(Utils.class);
+
     /**
      * CPU线程数
      */
@@ -25,171 +30,39 @@ public class Utils {
     /**
      * 源路径
      */
-    private final static String SOURCE_PATH = "";
+    private final static String SOURCE_PATH = "C:\\File\\term\\source\\";
     /**
-     * 源路径
+     * 目标路径
      */
-    private final static String TARGET_PATH = "";
-    /**
-     * 阻塞队列
-     */
-    private static LinkedBlockingQueue<File> queue = new LinkedBlockingQueue<>();
-    /**
-     * 线程池
-     */
-    private static ExecutorService executor = Executors.newFixedThreadPool(PROCESSOR);
-    /**
-     * 生产者计数
-     */
-    private static AtomicInteger produceCount = new AtomicInteger();
-
-    private static CopyOnWriteArrayList<File> imageList = new CopyOnWriteArrayList<>();
+    private final static String TARGET_PATH = "C:\\File\\term\\target\\";
+    private final static String DOT = ".";
 
     /**
-     * 复制文件
-     */
-    public static void copyFile(File source, File dest)
-            throws IOException {
-        FileUtils.copyFile(source, dest);
-    }
-
-    /**
-     * 下载图片
-     * 利用阻塞队列LinkedBlockingQueue的生产者消费者模式
-     */
-    public static void downloadImageWithQueue() {
-        // TODO: 2021/12/6
-        //  查询优秀的生产者消费者模式代码
-
-        File pathFile = new File(SOURCE_PATH);
-        List<File> list = findFileList(pathFile, null);
-        if (list == null || list.isEmpty()) {
-            //LogUtil.e(SOURCE_PATH, "There are no picture");
-            return;
-        }
-        //LogUtil.e("scan files", list.size());
-
-        for (File file : list) {
-            produceCount.incrementAndGet();
-
-            // 过滤图片线程，生产者线程
-            Runnable filterRunnable = () -> {
-                if (isBigImage(file)) {
-                    try {
-                        queue.put(file);
-                    } catch (InterruptedException e) {
-                        //LogUtil.e(file.getAbsolutePath(), e.getMessage());
-                    }
-                }
-            };
-
-            // 复制图片线程，消费者线程
-            Runnable copyRunnable = () -> {
-                try {
-                    /*
-                     * 这里存在问题
-                     * 总会出现消费者线程先执行,生产者线程后执行的情况
-                     * 导致丢数据
-                     */
-                    if (produceCount.get() > 0) {
-                        //LogUtil.e("produceCount", produceCount.get());
-                        produceCount.decrementAndGet();
-                        if (!queue.isEmpty()) {
-                            File takeFile = queue.take();
-                            String newPath = TARGET_PATH + takeFile.getName().replaceAll(".cnt", ".jpg");
-                            File dest = new File(newPath);
-                            Utils.copyFile(takeFile, dest);
-                        }
-                    }
-                } catch (Exception e) {
-//                    LogUtil.e(file.getAbsolutePath() + " copy error", e.getMessage());
-                }
-            };
-
-            executor.execute(filterRunnable);
-            executor.execute(copyRunnable);
-        }
-        executor.shutdown();
-
-        try {
-            boolean awaitTermination = executor.awaitTermination(30, TimeUnit.MINUTES);
-//            LogUtil.e("ExecutorService awaitTermination", awaitTermination);
-        } catch (InterruptedException e) {
-//            LogUtil.e("ExecutorService termination interrupted", e.getMessage());
-        }
-//        LogUtil.e("download done", System.currentTimeMillis());
-//        LogUtil.e("ExecutorService isTerminated", executor.isTerminated());
-    }
-
-
-    /**
-     * 利用线程安全的List CopyOnWriteArrayList存File
+     * 过滤掉小图片并下载
      */
     public static void downloadImage() {
-        filterImage();
-
-        // IO密集型，可以使用较大的线程池，一般CPU核心数 * 2
-        ExecutorService service = Executors.newFixedThreadPool(PROCESSOR * 2);
-        if (imageList == null || imageList.isEmpty()) {
-//            LogUtil.e(ApplicationProperties.imageCachePath, "There are no image to download");
-            return;
-        }
-//        LogUtil.e("Need download image", imageList.size());
-        for (File file : imageList) {
-            Runnable runnable = () -> {
-                try {
-                    String newPath = SOURCE_PATH + file.getName().replaceAll(".cnt", ".jpg");
-                    File dest = new File(newPath);
-                    Utils.copyFile(file, dest);
-                } catch (IOException e) {
-//                    LogUtil.e(file.getAbsolutePath() + " copy error", e.getMessage());
-                }
-            };
-            service.execute(runnable);
-        }
-        service.shutdown();
-        try {
-            boolean awaitTermination = service.awaitTermination(30, TimeUnit.MINUTES);
-//            LogUtil.e("Download image ExecutorService awaitTermination", awaitTermination);
-        } catch (InterruptedException e) {
-//            LogUtil.e("Download image pool termination interrupted", e.getMessage());
-        }
-//        LogUtil.e("Download image done", System.currentTimeMillis());
-//        LogUtil.e("Download image ExecutorService isTerminated", service.isTerminated());
-    }
-
-    /**
-     * 过滤掉小图片
-     */
-    public static void filterImage() {
+        logger.info("Get start");
         File pathFile = new File(SOURCE_PATH);
-        List<File> list = findFileList(pathFile, null);
+        List<File> list = findFile(pathFile, null);
         if (list == null || list.isEmpty()) {
-//            LogUtil.e(ApplicationProperties.imageCachePath, "Scan no file");
+            logger.info("Scan no file");
             return;
         }
-//        LogUtil.e("scan files", list.size());
+        logger.info("Scan files " + list.size());
 
         // 计算密集型，尽量使用较小的线程池，一般是CPU核心数+1
         ExecutorService service = Executors.newFixedThreadPool(PROCESSOR + 1);
         for (File file : list) {
-            Runnable runnable = () -> {
-                if (isBigImage(file)) {
-                    imageList.add(file);
-                }
-            };
+            Runnable runnable = () -> filterImage(file);
             service.execute(runnable);
         }
         service.shutdown();
         try {
             boolean awaitTermination = service.awaitTermination(30, TimeUnit.MINUTES);
-            if (!awaitTermination) {
-//                LogUtil.e("INFO", "Filter image ExecutorService awaitTermination is false");
-            }
+            logger.info("ExecutorService awaitTermination: " + awaitTermination);
         } catch (InterruptedException e) {
-//            LogUtil.e("Filter image pool termination interrupted", e.getMessage());
+            logger.error("AwaitTermination interrupted", e);
         }
-//        LogUtil.e("filter done", System.currentTimeMillis());
     }
 
     /**
@@ -199,27 +72,27 @@ public class Utils {
      * @param list 保存文件名的集合
      * @return
      */
-    private static List<File> findFileList(File path, List<File> list) {
+    private static List<File> findFile(File path, List<File> list) {
         if (!path.exists() || !path.isDirectory()) {
             return list;
-        }
-        if (list == null) {
-            list = new ArrayList<>();
         }
         File[] files = path.listFiles();
         if (files == null || files.length < 1) {
             return null;
         }
+        if (list == null) {
+            list = new CopyOnWriteArrayList<>();
+        }
         for (File file : files) {
             try {
                 if (file.isDirectory()) {
                     // 回调自身继续查询
-                    findFileList(file, list);
+                    findFile(file, list);
                 } else {
                     list.add(file);
                 }
             } catch (Exception e) {
-//                LogUtil.e(file.getAbsolutePath() + " ERROR", e.getMessage());
+                logger.error(file.getAbsolutePath(), e);
             }
         }
         return list;
@@ -227,47 +100,61 @@ public class Utils {
 
     /**
      * 判断图片大小
-     * 分辨率小于 200 * 200 将认定为小图
+     * 分辨率小于 PIXEL * PIXEL 将认定为小图
      */
-    private static boolean isBigImage(File file) {
-        boolean bigImage = false;
+    private static void filterImage(@NotNull File file) {
         if (file.isFile() && file.exists()) {
+            Lock lock = new ReentrantLock();
+            lock.lock();
             try {
-                /*
-                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                if (bitmap != null) {
-                    int width = bitmap.getWidth();
-                    int height = bitmap.getHeight();
-
-                    if (width > PIXEL && height > PIXEL) {
-                        bigImage = true;
-                        // LogUtil.e(file.getName(), "width: " + width + "\t height: " + height);
+                FastImageInfo imageInfo = new FastImageInfo(file);
+                int width = imageInfo.getWidth();
+                int height = imageInfo.getHeight();
+                //logger.info(file.getName() + imageInfo.toString());
+                if (width < PIXEL && height < PIXEL) {
+                    String fileName = file.getName();
+                    String newPath;
+                    if (fileName.contains(DOT)) {
+                        //获取文件的后缀名
+                        String suffix = fileName.substring(fileName.lastIndexOf(DOT));
+                        newPath = TARGET_PATH +
+                                fileName.replaceAll(DOT + suffix, DOT + imageInfo.getMimeType());
+                    } else {
+                        newPath = TARGET_PATH + fileName + DOT + imageInfo.getMimeType();
                     }
+                    File dest = new File(newPath);
+                    FileUtils.copyFile(file, dest);
+                    //FileUtils.moveFile(file, dest);
                 }
-                */
-            } catch (Exception e) {
-//                LogUtil.e(file.getAbsolutePath() + " ERROR", e.getMessage());
+            } catch (IOException e) {
+                logger.error(file.getAbsolutePath(), e);
+            } finally {
+                lock.unlock();
             }
         }
-        return bigImage;
     }
 
     /**
      * 删除指定文件夹下所有文件
      */
-    public static void deleteFile(File file) {
+    public static void deleteFile(File file) throws IOException {
         if (file == null || !file.exists()) {
-            //LogUtil.e("WARNING", "文件删除失败,请检查文件路径是否正确");
+            logger.error("File deletion failed, please check if the file path is correct");
             return;
         }
-        File[] files = file.listFiles();
-        for (File f : files) {
-            if (f.isDirectory()) {
-                deleteFile(f);
-            } else {
-                f.delete();
-            }
+        if (file.isFile()) {
+            FileUtils.delete(file);
         }
-        file.delete();
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    deleteFile(f);
+                } else {
+                    FileUtils.delete(f);
+                }
+            }
+            FileUtils.delete(file);
+        }
     }
 }

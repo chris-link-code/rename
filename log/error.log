@@ -1,0 +1,90 @@
+[19:50:15:569] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\log\error.log
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[19:50:15:569] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\run.bat
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[19:50:15:569] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\md5.jar
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[19:50:15:569] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\README.txt
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[19:50:15:569] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\log\info.log
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[20:11:33:134] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\README.txt
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[20:11:33:134] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\run.bat
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[20:11:33:134] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\md5.jar
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[20:11:33:134] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\log\error.log
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]
+[20:11:33:134] [ERROR] - util.Utils.filterImage(Utils.java:130) - D:\picture\weibo\run\log\info.log
+java.io.IOException: Unsupported image type
+	at util.FastImageInfo.processStream(FastImageInfo.java:123) ~[classes/:?]
+	at util.FastImageInfo.<init>(FastImageInfo.java:21) ~[classes/:?]
+	at util.Utils.filterImage(Utils.java:119) ~[classes/:?]
+	at util.Utils.lambda$downloadImage$0(Utils.java:65) ~[classes/:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149) [?:1.8.0_311]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624) [?:1.8.0_311]
+	at java.lang.Thread.run(Thread.java:748) [?:1.8.0_311]

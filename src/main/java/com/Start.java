@@ -1,4 +1,4 @@
-package java;
+package com;
 
 import java.io.File;
 
@@ -45,24 +45,27 @@ public class Start {
                  }*/
 
                 String originName = f.getName();
-                if (!originName.contains("K_") || !originName.contains(".mp4")) {
-                //if (!originName.contains(".vdat")) {
-                    continue;
-                }
+                String filename = originName;
                 System.out.println(originName);
-                //String filename = f.getName().replaceAll("(\\S{1,})m4a","");
-                String substring = originName;
-                try {
-                    substring = originName.substring(originName.lastIndexOf('_'), originName.lastIndexOf('.'));
-                    System.out.println(substring);
-                } catch (Exception e) {
-                    System.out.println("ERROR" + originName);
+                if (originName.endsWith(".vdat")) {
+                    filename = originName.replaceAll(".vdat", ".mp4");
                 }
-                //String filename = originName.replaceAll(substring, "");
-                String filename = originName.replaceAll(".vdat", ".mp4");
+
+                if (originName.contains("K_") && originName.endsWith(".mp4")) {
+                    //String filename = f.getName().replaceAll("(\\S{1,})m4a","");
+                    String substring = originName;
+                    try {
+                        substring = originName.substring(originName.lastIndexOf('_'), originName.lastIndexOf('.'));
+                        System.out.println(substring + "\r\n");
+                    } catch (Exception e) {
+                        System.out.println("ERROR" + originName);
+                    }
+                    filename = originName.replaceAll(substring, "");
+                }
+                System.out.println(filename + "\r\n");
                 //对文件重命名
                 File newFile = new File(f.getParent() + File.separator + filename);
-                //f.renameTo(newFile);
+                f.renameTo(newFile);
                 //输出文件改名前后变化
                 //System.out.println(f.getName() + "==>" + newFile.getName());
             }
