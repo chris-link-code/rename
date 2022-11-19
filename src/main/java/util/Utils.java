@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
@@ -156,5 +157,35 @@ public class Utils {
             }
             FileUtils.delete(file);
         }
+    }
+
+    /**
+     * 字节转KB/MB/GB
+     *
+     * @param bytes
+     * @return
+     */
+    public static String sizeTransfer(long bytes) {
+        if (bytes < 1) {
+            return "less 1 B";
+        }
+        StringBuffer sb = new StringBuffer();
+        //if (size >= 1024 * 1024 * 1024) {
+        if ((bytes >> 30) > 1) {
+            sb.append(bytes >> 30).append(" GB");
+        }
+        //else if (size >= 1024 * 1024) {
+        else if ((bytes >> 20) > 1) {
+            sb.append(bytes >> 20).append(" MB");
+        }
+        //else if (size >= 1024) {
+        else if ((bytes >> 10) > 1) {
+            sb.append(bytes >> 10).append(" KB");
+        }
+        //else if (size < 1024) {
+        else {
+            sb.append(bytes).append(" B");
+        }
+        return sb.toString();
     }
 }

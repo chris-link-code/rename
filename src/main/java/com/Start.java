@@ -1,6 +1,13 @@
 package com;
 
+import com.bean.Folder;
+import org.apache.commons.io.FileUtils;
+import util.Utils;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author chris
@@ -8,8 +15,13 @@ import java.io.File;
  */
 public class Start {
     public static void main(String[] args) {
-        File file = new File("D:/term");
-        File[] files = file.listFiles();
+        //rename();
+        listSize();
+    }
+
+    private static void rename() {
+        String path = "C:\\File\\temporary";
+        List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, true);
         for (File f : files) {
             if (f.isFile()) {
                 /**
@@ -50,6 +62,9 @@ public class Start {
                 if (originName.endsWith(".vdat")) {
                     filename = originName.replaceAll(".vdat", ".mp4");
                 }
+                if (originName.endsWith(".cnt")) {
+                    filename = originName.replaceAll(".cnt", ".png");
+                }
 
                 if (originName.contains("K_") && originName.endsWith(".mp4")) {
                     //String filename = f.getName().replaceAll("(\\S{1,})m4a","");
@@ -64,12 +79,40 @@ public class Start {
                 }
                 System.out.println(filename + "\r\n");
                 //对文件重命名
-                File newFile = new File(f.getParent() + File.separator + filename);
+                File newFile = new File(path + File.separator + filename);
                 f.renameTo(newFile);
                 //输出文件改名前后变化
                 //System.out.println(f.getName() + "==>" + newFile.getName());
             }
         }
+    }
 
+    /**
+     * 对文件夹大小排序
+     */
+    private static void listSize() {
+        //String path = "C:\\File\\temporary";
+        String path = "C:\\File\\course";
+        //List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, false);
+        File currentPath = new File(path);
+        File[] files = currentPath.listFiles();
+        List<Folder> folderList = new ArrayList<>(1024);
+        for (File file : files) {
+            /*if (file.isFile()) {
+                System.out.println(file.getName() + " is file: " + Utils.sizeTransfer(file.length()));
+            }*/
+            // 只要文件夹
+            if (file.isDirectory()) {
+                folderList.add(new Folder(file.getName(), FileUtils.sizeOfDirectory(file)));
+                //System.out.println(file.getName() + " is directory: " + Utils.sizeTransfer(FileUtils.sizeOfDirectory(file)));
+            }
+        }
+
+        folderList.sort(Comparator.comparingLong(Folder::getSize));
+
+        for (int i = folderList.size(); i > 0; i--) {
+            Folder folder = folderList.get(i - 1);
+            System.out.println(Utils.sizeTransfer(folder.getSize()) + " \t: " + folder.getName());
+        }
     }
 }
