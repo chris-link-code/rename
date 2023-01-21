@@ -91,8 +91,11 @@ public class Start {
      * 对文件夹大小排序
      */
     private static void listSize() {
+        long start = System.currentTimeMillis();
         //String path = "C:\\File\\temporary";
-        String path = "C:\\File\\course";
+        //String path = "C:\\File\\course";
+        //String path = "C:\\Users\\chris\\AppData\\Local\\Packages";
+        String path = "D:\\develop\\mysql\\data";
         //List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, false);
         File currentPath = new File(path);
         File[] files = currentPath.listFiles();
@@ -114,5 +117,7 @@ public class Start {
             Folder folder = folderList.get(i - 1);
             System.out.println(Utils.sizeTransfer(folder.getSize()) + " \t: " + folder.getName());
         }
+        long end = System.currentTimeMillis();
+        System.out.println("spend " + (end - start) + " ms");
     }
 }
