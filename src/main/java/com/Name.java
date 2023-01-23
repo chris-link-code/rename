@@ -1,5 +1,6 @@
 package com;
 
+import util.PinYinUtil;
 import util.Utils;
 
 import java.io.*;
@@ -53,9 +54,15 @@ public class Name {
         int size = list.size();
         System.out.println("There are " + size + " unique words");
         System.out.println(uniqueWord);
-        /*for (String s : list) {
-            System.out.println(s);
-        }*/
+
+        File pinYinFile = new File("C:/File/temporary/pin_yin.txt");
+        FileWriter pinYiniter = new FileWriter(pinYinFile);
+        for (String s : list) {
+            pinYiniter.write(s + "\t" + PinYinUtil.toPinyin(s) + "\r\n");
+        }
+        pinYiniter.flush();
+        pinYiniter.close();
+
         //可使用 Comparable 自定的规则进行排序，但汉字的排序效果不好
         //Collections.sort(list);
         File writeFile = new File("C:/File/temporary/names.txt");
@@ -65,10 +72,10 @@ public class Name {
             for (int j = i + 1; j < size; j++) {
                 //System.out.println(list.get(i) + list.get(j));
                 //System.out.println(list.get(j) + list.get(i));
-                fileWriter.write(list.get(i) + list.get(j) + ",");
-                fileWriter.write(list.get(j) + list.get(i) + ",");
+                fileWriter.write("林" + list.get(i) + list.get(j) + ",");
+                fileWriter.write("林" + list.get(j) + list.get(i) + ",");
                 int number = integer.incrementAndGet();
-                if (number > 10) {
+                if (number > 0) {
                     fileWriter.write("\r\n");
                     integer.set(0);
                 }
