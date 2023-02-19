@@ -1,15 +1,13 @@
 package com;
 
+import cn.hutool.core.io.file.FileReader;
+import cn.hutool.core.io.file.FileWriter;
 import util.PinYinUtil;
-import util.Utils;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 /**
  * @author chris
@@ -28,18 +26,12 @@ public class Name {
                 "平介至志知业启志强超毅华胜成荣德才迎来飞宇云文仁宏益明伟光思广兴章承元";*/
         //String text = "章承元元";
 
-        File file = new File("C:/File/temporary/word.txt");
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line;
-        StringBuffer sb = new StringBuffer();
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
-        }
-        reader.close();
-        String text = sb.toString();
-        //System.out.println(text);
+        String word = "C:/File/temporary/word.txt";
+        FileReader fileReader = new FileReader(word);
+        String text = fileReader.readString();
+        System.out.println(text);
 
-        System.out.println("There are " + text.length() + " words");
+//        System.out.println("There are " + text.length() + " words");
         HashSet<String> unique = new HashSet<>(256);
         char[] chars = text.toCharArray();
         for (char c : chars) {
@@ -53,35 +45,32 @@ public class Name {
         }
         int size = list.size();
         System.out.println("There are " + size + " unique words");
-        System.out.println(uniqueWord);
 
-        File pinYinFile = new File("C:/File/temporary/pin_yin.txt");
-        FileWriter pinYiniter = new FileWriter(pinYinFile);
+        String pinYin = "C:/File/temporary/pin_yin.txt";
+        FileWriter pinYiniter = new FileWriter(pinYin);
         for (String s : list) {
-            pinYiniter.write(s + "\t" + PinYinUtil.toPinyin(s) + "\r\n");
+            pinYiniter.write(s + "\t" + PinYinUtil.toPinyin(s) + "\r\n", true);
         }
-        pinYiniter.flush();
-        pinYiniter.close();
 
         //可使用 Comparable 自定的规则进行排序，但汉字的排序效果不好
         //Collections.sort(list);
-        File writeFile = new File("C:/File/temporary/names.txt");
-        FileWriter fileWriter = new FileWriter(writeFile);
-        AtomicInteger integer = new AtomicInteger();
+        String names = "C:/File/temporary/names.txt";
+        FileWriter writer = new FileWriter(names);
+        //AtomicInteger integer = new AtomicInteger();
         for (int i = 0; i < size; i++) {
-            for (int j = i + 1; j < size; j++) {
+            for (int j = 0; j < size; j++) {
                 //System.out.println(list.get(i) + list.get(j));
                 //System.out.println(list.get(j) + list.get(i));
-                fileWriter.write("林" + list.get(i) + list.get(j) + ",");
-                fileWriter.write("林" + list.get(j) + list.get(i) + ",");
-                int number = integer.incrementAndGet();
-                if (number > 0) {
-                    fileWriter.write("\r\n");
+                String name = "林" + list.get(i) + list.get(j) + ",";
+//                System.out.println(name);
+                writer.write(name, true);
+                //fileWriter.write("林" + list.get(j) + list.get(i) + ",");
+                /*int number = integer.incrementAndGet();
+                if (number > 7) {
                     integer.set(0);
-                }
+                }*/
             }
+            writer.write("\r\n\r\n", true);
         }
-        fileWriter.flush();
-        fileWriter.close();
     }
 }
