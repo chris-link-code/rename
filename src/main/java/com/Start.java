@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import util.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -15,13 +16,22 @@ import java.util.List;
  */
 public class Start {
     public static void main(String[] args) {
-        rename();
-//        listSize();
+        try {
+            rename();
+//            listSize();
+//            move();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
+    /**
+     * 文件重命名
+     */
     private static void rename() {
 //        String path = "D:\\thunder\\kite";
-        String path = "E:\\video\\temp";
+//        String path = "E:\\video\\temp";
+        String path = "/Volumes/Disk/video/想见你/";
         List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, true);
         for (File f : files) {
             if (f.isFile()) {
@@ -86,7 +96,7 @@ public class Start {
                 //对文件重命名
 //                filename = "风筝_" + filename;
                 String[] split = filename.split("\\.");
-                filename = "梦华录_" + split[0] + ".mp4";
+                filename = "想见你_" + split[0] + ".mp4";
                 File newFile = new File(path + File.separator + filename);
                 f.renameTo(newFile);
                 //输出文件改名前后变化
@@ -127,5 +137,27 @@ public class Start {
         }
         long end = System.currentTimeMillis();
         System.out.println("spend " + (end - start) + " ms");
+    }
+
+    /**
+     * 移动文件
+     */
+    private static void move() throws IOException {
+        String path = "/Volumes/Disk/video/";
+        String target = "/Volumes/Disk/video/大宋提刑官/";
+//        List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, false);
+        File[] files = new File(path).listFiles();
+        for (File file : files) {
+            if (file.isDirectory() && file.getName().endsWith(".mp4")) {
+//                System.out.println(file.getAbsoluteFile());
+                for (File f : file.listFiles()) {
+                    if (f.isFile() && f.getName().endsWith(".mp4")) {
+//                        System.out.println(f.getAbsoluteFile());
+                        File targetFile = new File(target + f.getName());
+                        FileUtils.moveFile(f, targetFile);
+                    }
+                }
+            }
+        }
     }
 }
