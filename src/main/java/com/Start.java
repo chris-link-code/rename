@@ -15,12 +15,13 @@ import java.util.List;
  */
 public class Start {
     public static void main(String[] args) {
-        //rename();
-        listSize();
+        rename();
+//        listSize();
     }
 
     private static void rename() {
-        String path = "C:\\File\\temporary";
+//        String path = "D:\\thunder\\kite";
+        String path = "E:\\video\\temp";
         List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, true);
         for (File f : files) {
             if (f.isFile()) {
@@ -56,33 +57,40 @@ public class Start {
                  System.out.println(f.getName() + "==>" + newFile.getName());
                  }*/
 
-                String originName = f.getName();
-                String filename = originName;
-                System.out.println(originName);
-                if (originName.endsWith(".vdat")) {
-                    filename = originName.replaceAll(".vdat", ".mp4");
+                String filename = f.getName();
+//                String filename = filename;
+//                System.out.println(filename);
+                if (filename.endsWith(".vdat")) {
+                    filename = filename.replaceAll(".vdat", ".mp4");
                 }
-                if (originName.endsWith(".cnt")) {
-                    filename = originName.replaceAll(".cnt", ".png");
+                if (filename.endsWith(".cnt")) {
+                    filename = filename.replaceAll(".cnt", ".png");
+                }
+                // 去空格
+                if (filename.contains(" ")) {
+                    filename = filename.replaceAll("\\s+", "_");
                 }
 
-                if (originName.contains("K_") && originName.endsWith(".mp4")) {
+                if (filename.contains("K_") && filename.endsWith(".mp4")) {
                     //String filename = f.getName().replaceAll("(\\S{1,})m4a","");
-                    String substring = originName;
+                    String substring = filename;
                     try {
-                        substring = originName.substring(originName.lastIndexOf('_'), originName.lastIndexOf('.'));
-                        System.out.println(substring + "\r\n");
+                        substring = filename.substring(filename.lastIndexOf('_'), filename.lastIndexOf('.'));
+//                        System.out.println(substring + "\r\n");
                     } catch (Exception e) {
-                        System.out.println("ERROR" + originName);
+                        System.out.println("ERROR" + filename);
                     }
-                    filename = originName.replaceAll(substring, "");
+                    filename = filename.replaceAll(substring, "");
                 }
-                System.out.println(filename + "\r\n");
+//                System.out.println(filename + "\r\n");
                 //对文件重命名
+//                filename = "风筝_" + filename;
+                String[] split = filename.split("\\.");
+                filename = "梦华录_" + split[0] + ".mp4";
                 File newFile = new File(path + File.separator + filename);
                 f.renameTo(newFile);
                 //输出文件改名前后变化
-                //System.out.println(f.getName() + "==>" + newFile.getName());
+                System.out.println(f.getName() + " --> " + newFile.getName());
             }
         }
     }
@@ -92,10 +100,10 @@ public class Start {
      */
     private static void listSize() {
         long start = System.currentTimeMillis();
-        //String path = "C:\\File\\temporary";
+        String path = "D:\\code\\rust";
         //String path = "C:\\File\\course";
         //String path = "C:\\Users\\chris\\AppData\\Local\\Packages";
-        String path = "D:\\develop\\mysql\\data";
+//        String path = "D:\\develop\\mysql\\data";
         //List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, false);
         File currentPath = new File(path);
         File[] files = currentPath.listFiles();
