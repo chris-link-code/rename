@@ -31,11 +31,11 @@ public class Start {
     private static void rename() {
 //        String path = "D:\\thunder\\kite";
 //        String path = "E:\\video\\temp";
-        String path = "/Volumes/Disk/video/想见你/";
+        String path = "/Volumes/Disk/video/山河令/";
         List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, true);
         for (File f : files) {
             if (f.isFile()) {
-                /**
+                /*
                  //正则判断是否含有dy2018标识
                  if (f.getName().matches("\\S*dy2018\\S*")) {
 
@@ -96,9 +96,10 @@ public class Start {
                 //对文件重命名
 //                filename = "风筝_" + filename;
                 String[] split = filename.split("\\.");
-                filename = "想见你_" + split[0] + ".mp4";
+                filename = "山河令_" + split[2] + ".mp4";
+                filename = filename.replaceAll("EP", "");
                 File newFile = new File(path + File.separator + filename);
-                f.renameTo(newFile);
+//                f.renameTo(newFile);
                 //输出文件改名前后变化
                 System.out.println(f.getName() + " --> " + newFile.getName());
             }
