@@ -30,8 +30,9 @@ public class Start {
      */
     private static void rename() {
 //        String path = "D:\\thunder\\kite";
-//        String path = "E:\\video\\temp";
-        String path = "/Volumes/Disk/video/山河令/";
+//        String path = "E:\\video\\苍兰诀";
+        String path = "F:\\沉默的真相";
+//        String path = "/Volumes/Disk/video/山河令/";
         List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, true);
         for (File f : files) {
             if (f.isFile()) {
@@ -96,11 +97,13 @@ public class Start {
                 //对文件重命名
 //                filename = "风筝_" + filename;
                 String[] split = filename.split("\\.");
-                filename = "山河令_" + split[2] + ".mp4";
+//                char[] split = filename.toCharArray();
+//                filename = "父母爱情_" + split[5] + split[6] + ".mp4";
+//                filename = "北平无战事_" + split[3] + ".mp4";
+                filename = split[0] + "_" + split[2] + ".mp4";
                 filename = filename.replaceAll("EP", "");
                 File newFile = new File(path + File.separator + filename);
 //                f.renameTo(newFile);
-                //输出文件改名前后变化
                 System.out.println(f.getName() + " --> " + newFile.getName());
             }
         }
