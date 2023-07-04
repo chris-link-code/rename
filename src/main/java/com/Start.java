@@ -106,7 +106,7 @@ public class Start {
                 filename = "白鹿原" + "_" + split[0].replaceAll("\\D+", "") + "." + split[1];
                 filename = filename.replaceAll("EP", "");
                 File newFile = new File(path + File.separator + filename);
-                f.renameTo(newFile);
+//                f.renameTo(newFile);
                 System.out.println(f.getName() + " --> " + newFile.getName());
             }
         }
