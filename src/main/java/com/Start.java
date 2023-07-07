@@ -31,7 +31,8 @@ public class Start {
     private static void rename() {
 //        String path = "D:\\thunder\\kite";
 //        String path = "E:\\video\\苍兰诀";
-        String path = "F:\\video\\白鹿原";
+        String path = "F:\\video\\鹿鼎记";
+//        String path = "F:\\download";
 //        String path = "F:\\山海情";
 //        String path = "/Volumes/Disk/video/山河令/";
         List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, true);
@@ -99,14 +100,14 @@ public class Start {
 //                filename = "风筝_" + filename;
                 String[] split = filename.split("\\.");
 //                char[] split = filename.toCharArray();
-//                filename = "父母爱情_" + split[5] + split[6] + ".mp4";
+//                filename = "_" + split[3] + split[4] + "." + filename.split("\\.")[1];
 //                filename = "岁月_" + filename;
 //                filename = "山海情_" + split[3] + ".mp4";
-//                filename = split[0] + "_" + split[2] + ".mp4";
-                filename = "白鹿原" + "_" + split[0].replaceAll("\\D+", "") + "." + split[1];
-                filename = filename.replaceAll("EP", "");
+                filename = split[0] + "_" + split[7] + "." + split[13];
+//                filename = "激情燃烧的岁月" + "_" + split[2].replaceAll("\\D+", "") + "." + split[3];
+                filename = filename.replaceAll("E", "");
                 File newFile = new File(path + File.separator + filename);
-//                f.renameTo(newFile);
+                f.renameTo(newFile);
                 System.out.println(f.getName() + " --> " + newFile.getName());
             }
         }
