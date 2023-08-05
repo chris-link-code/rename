@@ -1,14 +1,18 @@
 package com;
 
+import cn.hutool.crypto.digest.DigestUtil;
 import com.bean.Folder;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.core.appender.AbstractOutputStreamAppender;
 import util.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author chris
@@ -18,8 +22,9 @@ public class Start {
     public static void main(String[] args) {
         try {
 //            rename();
-            listSize();
+//            listSize();
 //            move();
+            moveSameFile();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -116,7 +121,7 @@ public class Start {
     /**
      * 对文件夹大小排序
      */
-    private static void listSize() {
+    private static void listFolder() {
         long start = System.currentTimeMillis();
 //        String path = "D:\\code\\rust";
         //String path = "C:\\File\\course";
@@ -145,6 +150,54 @@ public class Start {
         }
         long end = System.currentTimeMillis();
         System.out.println("spend " + (end - start) + " ms");
+    }
+
+    /**
+     * 判断相同文件并移动
+     */
+    private static void moveSameFile() throws InterruptedException {
+        long start = System.currentTimeMillis();
+        Map<String, File> map = new ConcurrentHashMap<>(1 << 16);
+        String path = "D:\\picture";
+//        String path = "D:\\picture\\temp";
+        Collection<File> files = FileUtils.listFiles(new File(path), null, true);
+        System.out.println("files: " + files.size());
+        //        files.forEach(file -> map.put(file.getAbsolutePath(), file));
+        String zero = "D:\\temporary\\0";
+        String one = "D:\\temporary\\1";
+
+        // 线程池
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        files.forEach(file -> {
+            Runnable runnable = () -> {
+                // 根据文件名判断
+                String filename = file.getName();
+                // 根据文件MD5值判断 md5Hex,sha1Hex,sha256Hex,sha512Hex
+                String hash = DigestUtil.sha256Hex(file);
+                if (map.containsKey(filename)) {
+                    System.out.println(filename);
+                    String targetZero = zero + "\\" + filename;
+                    String targetOne = one + "\\" + filename;
+                    try {
+                        File mapFile = map.get(hash);
+                        if (mapFile != null) {
+//                            FileUtils.moveFile(mapFile, new File(targetOne));
+                            map.put(hash, null);
+                        }
+//                        FileUtils.moveFile(file, new File(targetZero));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    map.put(hash, file);
+                }
+            };
+            executor.execute(runnable);
+        });
+        executor.shutdown();
+        boolean terminate = executor.awaitTermination(30, TimeUnit.MINUTES);
+        long end = System.currentTimeMillis();
+        System.out.println("time: " + (end - start) + "ms");
     }
 
     /**
