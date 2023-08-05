@@ -17,8 +17,8 @@ import java.util.List;
 public class Start {
     public static void main(String[] args) {
         try {
-            rename();
-//            listSize();
+//            rename();
+            listSize();
 //            move();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -118,10 +118,10 @@ public class Start {
      */
     private static void listSize() {
         long start = System.currentTimeMillis();
-        String path = "D:\\code\\rust";
+//        String path = "D:\\code\\rust";
         //String path = "C:\\File\\course";
         //String path = "C:\\Users\\chris\\AppData\\Local\\Packages";
-//        String path = "D:\\develop\\mysql\\data";
+        String path = "D:\\develop\\mysql\\data";
         //List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, false);
         File currentPath = new File(path);
         File[] files = currentPath.listFiles();
