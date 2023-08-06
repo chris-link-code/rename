@@ -158,7 +158,7 @@ public class Start {
     private static void moveSameFile() throws InterruptedException {
         long start = System.currentTimeMillis();
         Map<String, File> map = new ConcurrentHashMap<>(1 << 16);
-        String path = "D:\\picture";
+        String path = "D:\\pron";
 //        String path = "D:\\picture\\temp";
         Collection<File> files = FileUtils.listFiles(new File(path), null, true);
         System.out.println("files: " + files.size());
@@ -173,23 +173,26 @@ public class Start {
                 // 根据文件名判断
                 String filename = file.getName();
                 // 根据文件MD5值判断 md5Hex,sha1Hex,sha256Hex,sha512Hex
-                String hash = DigestUtil.sha256Hex(file);
-                if (map.containsKey(filename)) {
-                    System.out.println(filename);
+//                String key = DigestUtil.sha256Hex(file);
+                String key = String.valueOf(file.length());
+                if (map.containsKey(key)) {
                     String targetZero = zero + "\\" + filename;
                     String targetOne = one + "\\" + filename;
                     try {
-                        File mapFile = map.get(hash);
-                        if (mapFile != null) {
+                        File mapFile = map.get(key);
+
+                        System.out.println(file.getAbsoluteFile());
+                        System.out.println(mapFile.getAbsoluteFile());
+
+                        if (mapFile.exists()) {
 //                            FileUtils.moveFile(mapFile, new File(targetOne));
-                            map.put(hash, null);
                         }
 //                        FileUtils.moveFile(file, new File(targetZero));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    map.put(hash, file);
+                    map.put(key, file);
                 }
             };
             executor.execute(runnable);
