@@ -22,9 +22,9 @@ public class Start {
     public static void main(String[] args) {
         try {
 //            rename();
-//            listSize();
+            listFolder();
 //            move();
-            moveSameFile();
+//            moveSameFile();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -126,7 +126,8 @@ public class Start {
 //        String path = "D:\\code\\rust";
         //String path = "C:\\File\\course";
         //String path = "C:\\Users\\chris\\AppData\\Local\\Packages";
-        String path = "D:\\develop\\mysql\\data";
+//        String path = "D:\\develop\\mysql\\data";
+        String path = "D:\\develop\\repository";
         //List<File> files = (List<File>) FileUtils.listFiles(new File(path), null, false);
         File currentPath = new File(path);
         File[] files = currentPath.listFiles();
